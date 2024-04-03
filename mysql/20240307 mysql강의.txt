@@ -1,0 +1,49 @@
+테이블 이름 : professor
+create table professor(
+id int primary key auto_increment,
+name varchar(20) not null,
+belong char(3) default 'FOO',
+phone varchar(13));
+
+테이블 이름 : student
+create table student(
+id int primary key auto_increment,
+name varchar(20) not null,
+belong char(3) default 'FOO',
+tel varchar(13),
+p_id int);
+
+alter table student
+modify column id char(8) primary key;
+
+1. C(Create) ----- db --> insert구문
+insert into 테이블명(필드1, 필드2, 필드3....) values(값1, 값2, 값3);
+
+insert into professor(name, belong, phone) values('지영준', 'EZN', '010-9867-7980');
+
+insert into professor
+(name, belong, phone) 
+values('유재석', 'IDE', '010-1234-7890');
+
+insert into professor
+(name, belong, phone) 
+values('박명수', 'MSE', '010-4321-0987');
+
+insert into professor
+(name, belong, phone) 
+values('정준하', 'ESE', '010-1379-2468');
+
+insert into professor
+(name, belong, phone) 
+values('강감찬', 'ESE', '010-4682-7391');
+
+2. R(Read) ----- db --> Select구문
+Select*from professor;
+
+3. 삭제(Delete)
+Delete from 테이블명 where 조건;
+delete from professor where id=101;
+
+테이블 구조 : schema(스키마) 관계 도식화 방식
+ERD(Entity Relational Diagram)
+

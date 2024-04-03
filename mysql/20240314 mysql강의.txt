@@ -1,0 +1,60 @@
+3개 테이블 조인
+
+- student : p_id, name
+- girl_group : _id, name, debut, hit_song_id
+- song : _id, title, lyrics
+- teacher : id, name, belong, phone
+
+  student.p_id = girl_group._id
+  girl_group.hit_song_id = song._id
+
+걸그룹 이름, 학생 이름, 데뷔일, 노래제목
+
+select g.name, st.name, g.debut, s.title
+from girl_group as g join student as st join song as s
+on st.p_id = g._id and g.hit_song_id = s._id;
+
+조건 데뷔해가 2009년인 자료중에서 학생이름이 두글자인 자료만 검색합니다.
+
+select g.name, st.name, g.debut, s.title
+from girl_group as g join student as st join song as s
+on st.p_id = g._id and g.hit_song_id = s._id
+where year(g.debut)=2009 and char_length(st.name)=2;
+where year(g.debut)=2009 and st.name like '__';
+
+걸그룹 이름, 학생 이름, 데뷔일, 노래제목, teacher.name, teacher.phone
+
+select g.name, st.name, g.debut, s.title, t.name, t.phone
+from girl_group as g join student as st join song as s join teacher as t
+on st.p_id = g._id and g.hit_song_id = s._id and t.id = st.p_id
+where year(g.debut)=2009 and char_length(st.name)=2;
+
+create table emp (
+id int primary key,
+name varchar(10),
+super_id int);
+
+insert into emp values 
+(2, '정과장', 1),
+(3, '최대리', 2),
+(4, '이대리', 2);
+
+insert into emp(id, name) values
+(1, '김사장'),
+(5, '박고문');
+
+select emp1.id, emp1.name, emp2.name
+from emp as emp1 join emp as emp2
+on emp1.super_id=emp2.id;
+
+select*from girl_group where hit_song_id=105;
+select*from song where lyrics like '%give%';
+
+select*from girl_group where hit_song_id=(select _id from song where lyrics like '%give%');
+
+select*from girl_group where hit_song_id in (select _id from song where lyrics like '%e%');
+
+alter table test2
+add constraint fk_pid
+foreign key(p_id)
+references test1 (p_id);

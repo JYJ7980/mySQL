@@ -1,0 +1,91 @@
+select concat('만', timestampdiff(year, '2004-8-31', now()),'세')as '장원영 만 나이',
+concat('만', timestampdiff(year, '2003-9-1', now()),'세')as '안유진 만 나이';
+
+select timestampdiff(day, '2024-2-28', now());
+select datediff(curdate(), '2024-2-28') as 빌려간날수;
+
+select last_day(now())-interval 1 month as '지난달 마지막 날'; //지난달의 마지막날짜
+select last_day(now())-interval 2 month+interval 1 day as '지난달 첫 날'; //지난달의 처음날짜
+
+최근 1개월 ( 2024-2-14 ~ 2024-3-13
+select curdate() - interval 1 month + interval 1 day as '1개월전',
+curdate() as '오늘';
+
+select member_id, member_name, gender, 
+	date_format(date_of_birth, '%Y-%m-%d') as date_of birth
+	from member_profile 
+	where month(date_of_birth) = month(now()) and tlno is not null
+	order by member_id;
+
+select curdate() as' 오늘은',
+case dayofweek(now())
+when 1 then '일'
+when 2 then '월'
+when 3 then '화'
+when 4 then '수'
+when 5 then '목'
+when 6 then '금'
+when 7 then '토'
+end as '무슨요일?';
+
+select mid('일월화수목금토', dayofweek(now()), 1);
+
+select substring('일월화수목금토', dayofweek(now()), 1);
+
+table name : song as s, girl_group as g
+
+select g._id, g.name, s.title, s.lyrics 
+from girl_group as g inner join song as s
+on g.hit_song_id = s._id;
+
+select g._id, g.name, s.title 
+from girl_group as g inner join song as s
+where g.hit_song_id = s._id;
+
+select g._id, g.name, s.title 
+from song as s inner join girl_group as g
+on g.hit_song_id = s._id;
+
+girl_group_id 걸그룹이름 대표곡
+
+join 방식
+inner join
+left join
+right join
+
+select g._id, g.name, s.title
+from girl_group as g left join song as s
+on g.hit_song_id = s._id;
+
+select g._id, g.name, s.title
+from girl_group as g left join song as s
+on g.hit_song_id = s._id
+where g.hit_song_id is null;
+
+select g._id, g.name, s.title
+from girl_group as g right join song as s
+on g.hit_song_id = s._id
+
+문제1> 가사 중에 'me'를 포함하는 자료의 id, 그룹이름, 가사를 출력하세요
+select g._id, g.name, s.lyrics
+from girl_group as g join song as s
+on g.hit_song_id = s._id
+where s.lyrics like '%me%';
+
+문제2> 데뷔해가 2011년인 그룹의 이름과 히트송을 출력하세요.
+select g.name, s.title
+from girl_group as g join song as s
+on g.hit_song_id = s._id
+where year(g.debut)=2011;
+
+문제3> 데뷔해를 기준으로 각 해 당 데뷔한 걸그룹 수를 출력하세요.
+select year(g.debut) as year, count(s._id) as '걸그룹수'
+from girl_group as g join song as s
+on g.hit_song_id = s._id
+group by year
+order by year;
+
+select g.id, g.name, g.debut, s.title, s.lyrics
+from girl_group g inner join song s
+on g.hit_song_id = s._id
+
